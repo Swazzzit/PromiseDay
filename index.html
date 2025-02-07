@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <title>Promise Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: black;
+            overflow: hidden;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .container {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .emoji-container {
+            position: absolute;
+            inset: 0;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.2;
+            will-change: transform;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gif-container {
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        .gif-container img {
+            max-width: 400px;
+            border-radius: 0.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .text-container {
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message {
+            color: white;
+            font-size: 2.25rem;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .fade-text {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-100vw);
+            }
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji-container" id="emojiContainer"></div>
+        <div class="main-content">
+            <div class="gif-container">
+                <img src="https://github.com/Swazzzit/PromiseDay/blob/main/te-lo-prometo-promise.gif?raw=true" alt="Promise Day">
+            </div>
+            <div class="text-container">
+                <p class="message" id="messageText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const texts = [
+            "A Promise Of Mine To You",
+            "Always Gonna Be Yours",
+            "Always Be By You",
+            "Happy Promise Day Señora 😌🤞🏻♥️"
+        ];
+
+        // Create floating emojis
+        const emojiContainer = document.getElementById('emojiContainer');
+        for (let i = 0; i < 20; i++) {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = '🤞🏻';
+            emoji.style.animation = `float ${Math.random() * 5 + 10}s linear infinite`;
+            emoji.style.top = `${Math.random() * 100}%`;
+            emoji.style.left = `${Math.random() * 100}%`;
+            emojiContainer.appendChild(emoji);
+        }
+
+        // Handle text animations
+        const messageText = document.getElementById('messageText');
+
+        function updateText(text, duration) {
+            messageText.textContent = text;
+            messageText.classList.add('fade-text');
+            
+            if (duration) {
+                setTimeout(() => {
+                    messageText.classList.remove('fade-text');
+                    messageText.textContent = '';
+                }, duration);
+            }
+        }
+
+        // Start text sequence after 1 second
+        setTimeout(() => {
+            texts.forEach((text, index) => {
+                if (index < texts.length - 1) {
+                    setTimeout(() => {
+                        updateText(text, 3000);
+                    }, index * 4000);
+                } else {
+                    // Last text stays
+                    setTimeout(() => {
+                        updateText(text);
+                    }, index * 4000);
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
